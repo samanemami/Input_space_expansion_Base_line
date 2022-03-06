@@ -1,2 +1,2 @@
 # Multioutput_regression
-Multioutput regression by ERC
+Multioutput regression
