@@ -16,13 +16,18 @@ def multivariate(model, X, y, cv, random_state, title):
     corr = df.corr(method='pearson', min_periods=1)
     corr_linkage = hierarchy.ward(corr)
     hierarchy.dendrogram(corr_linkage, leaf_rotation=90)
+    plt.title("dendrogram plot")
 
-    plt.savefig(title + "dendrogram_y.jpg", dpi=500)
-    # (corr).to_csv(title + "_Correlations.csv")
+    plt.savefig(title + " dendrogram_y.jpg", dpi=500)
     plt.close('all')
 
-    plt.imshow(corr)
-    plt.savefig(title + "corr_y.jpg", dpi=500)
+    # (corr).to_csv(title + "_Correlations.csv")
+    plot = plt.imshow(corr, cmap='coolwarm')
+    plt.xlabel('Targets')
+    plt.ylabel('targets')
+    plt.title(title + " Correlation")
+    plt.colorbar(plot, shrink=0.7)
+    plt.savefig(title + "corr.jpg", dpi=500)
     plt.close('all')
 
     def augment(X, y):
