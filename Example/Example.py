@@ -10,21 +10,21 @@ X, y = dts.make_regression(n_samples=500,
 
 
 if __name__ == "__main__":
-    multivariate(model=MLPRegressor,
+    multivariate(model=MLPRegressor(random_state=random_state),
                  X=X,
                  y=y,
                  cv=10,
                  random_state=1,
                  title="NN")
 
-    multivariate(model=BaggingRegressor,
+    multivariate(model=BaggingRegressor(random_state=random_state),
                  X=X,
                  y=y,
                  cv=10,
                  random_state=1,
                  title="Bagging")
     
-    multivariate(model=RandomForestRegressor,
+    multivariate(model=RandomForestRegressor(random_state=random_state),
                  X=X,
                  y=y,
                  cv=10,
