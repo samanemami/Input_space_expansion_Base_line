@@ -1,4 +1,6 @@
 from sklearn import datasets as dts
+from sklearn.ensemble import BaggingRegressor, RandomForestRegressor
+from sklearn.neural_network import MLPRegressor
 from Multivariate import multivariate
 
 
@@ -21,3 +23,12 @@ if __name__ == "__main__":
                  cv=10,
                  random_state=1,
                  title="Bagging")
+    
+    multivariate(model=RandomForestRegressor,
+                 X=X,
+                 y=y,
+                 cv=10,
+                 random_state=1,
+                 title="RF")
+    
+    
