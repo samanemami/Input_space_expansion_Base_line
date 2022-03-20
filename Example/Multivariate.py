@@ -1,10 +1,11 @@
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import BaggingRegressor, RandomForestRegressor
+from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import KFold
 import pandas as pd
 import numpy as np
 
 
-def multivariate(X, y, cv, random_state, title):
+def multivariate(model, X, y, cv, random_state, title):
 
     # Returns a data frame includes the
     # score regarding the different approaches
@@ -31,7 +32,7 @@ def multivariate(X, y, cv, random_state, title):
         # Train m models for m outputs
         for i in range(0, y_train.shape[1], 1):
 
-            model = RandomForestRegressor()
+            model = model(random_state=random_state)
             model.fit(x_train, y_train[:, i])
             score = model.score(x_test, y_test[:, i])
             scores.iloc[_, i] = score
