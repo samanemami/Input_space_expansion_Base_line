@@ -17,8 +17,13 @@ def multivariate(model, X, y, cv, random_state, title):
     corr_linkage = hierarchy.ward(corr)
     hierarchy.dendrogram(corr_linkage, leaf_rotation=90)
 
-    plt.savefig("dendrogram.jpg", dpi=500)
-    (corr).to_csv(title + "_Correlations.csv")
+    plt.savefig(title + "dendrogram_y.jpg", dpi=500)
+    # (corr).to_csv(title + "_Correlations.csv")
+    plt.close('all')
+
+    plt.imshow(corr)
+    plt.savefig(title + "corr_y.jpg", dpi=500)
+    plt.close('all')
 
     def augment(X, y):
         X = np.append(X, y, axis=1)
