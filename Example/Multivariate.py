@@ -1,4 +1,6 @@
 from sklearn.model_selection import KFold
+from scipy.cluster import hierarchy
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -11,7 +13,12 @@ def multivariate(model, X, y, cv, random_state, title):
     np.random.seed(random_state)
 
     df = pd.DataFrame(y)
-    (df.corr(method='pearson', min_periods=1)).to_csv(title + "_Correlations.csv")
+    corr = df.corr(method='pearson', min_periods=1)
+    corr_linkage = hierarchy.ward(corr)
+    hierarchy.dendrogram(corr_linkage, leaf_rotation=90)
+
+    plt.savefig("dendrogram.jpg", dpi=500)
+    (corr).to_csv(title + "_Correlations.csv")
 
     def augment(X, y):
         X = np.append(X, y, axis=1)
@@ -30,7 +37,7 @@ def multivariate(model, X, y, cv, random_state, title):
         # Train m models for m outputs
         for i in range(0, y_train.shape[1], 1):
 
-            model = model(random_state=random_state)
+            model = model
             model.fit(x_train, y_train[:, i])
             score = model.score(x_test, y_test[:, i])
             scores.iloc[_, i] = score
