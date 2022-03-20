@@ -8,8 +8,16 @@ X, y = dts.make_regression(n_samples=500,
 
 
 if __name__ == "__main__":
-    multivariate(X=X,
+    multivariate(model=MLPRegressor,
+                 X=X,
                  y=y,
-                 cv=5,
-                 random_state=123,
-                 title="regression")
+                 cv=10,
+                 random_state=1,
+                 title="NN")
+
+    multivariate(model=BaggingRegressor,
+                 X=X,
+                 y=y,
+                 cv=10,
+                 random_state=1,
+                 title="Bagging")
