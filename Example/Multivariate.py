@@ -1,8 +1,12 @@
+from sklearn.metrics import mean_squared_error as mse
 from sklearn.model_selection import KFold
 from scipy.cluster import hierarchy
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import warnings
+
+warnings.simplefilter("ignore")
 
 
 def multivariate(model, X, y, cv, random_state, title):
@@ -34,10 +38,18 @@ def multivariate(model, X, y, cv, random_state, title):
         X = np.append(X, y, axis=1)
         return X
 
+    def df(cv, y):
+        n = y.shape[1] * 3
+        df = np.zeros((cv, n))
+        return pd.DataFrame(df, columns=pd.RangeIndex(0, df.shape[1], 1))
+
+    def to_csv(df, title, score):
+        df.to_csv(title + score, index=False)
+
+    r2_score = df(cv, y)
+    rmse = df(cv, y)
+
     kfold = KFold(n_splits=cv, shuffle=True, random_state=random_state)
-    n_targest = y.shape[1] * 3
-    scores = np.zeros((cv, n_targest))
-    scores = pd.DataFrame(scores, columns=pd.RangeIndex(0, scores.shape[1], 1))
 
     for _, (train_index, test_index) in enumerate(kfold.split(X, y)):
         x_train, x_test = X[train_index], X[test_index]
@@ -49,10 +61,18 @@ def multivariate(model, X, y, cv, random_state, title):
 
             model = model
             model.fit(x_train, y_train[:, i])
+
+            # Calculate the R2_score of each target
             score = model.score(x_test, y_test[:, i])
-            scores.iloc[_, i] = score
-            mapping = {scores.columns[i]: 'target_'+str(i)}
-            scores = scores.rename(columns=mapping)
+            r2_score.iloc[_, i] = score
+            mapping = {r2_score.columns[i]: 'target_'+str(i)}
+            r2_score = r2_score.rename(columns=mapping)
+
+            # Calculate the RMSE of each target
+            rmse.iloc[_, i] = mse(
+                y_test[:, i], model.predict(x_test), squared=False)
+            mapping = {rmse.columns[i]: 'target_'+str(i)}
+            rmse = rmse.rename(columns=mapping)
 
         # 2nd Experiment:
         # Check the information in outputs to predict another outputs.
@@ -70,10 +90,16 @@ def multivariate(model, X, y, cv, random_state, title):
                 model.fit(X_train, Y_train)
                 score = model.score(X_test, Y_test)
 
-                scores.iloc[_, i] = score
+                # Calculate the R2_score of each target
+                r2_score.iloc[_, i] = score
+                mapping = {r2_score.columns[i]: 'Y|target'+str(j)}
+                r2_score = r2_score.rename(columns=mapping)
 
-                mapping = {scores.columns[i]: 'Y|target'+str(j)}
-                scores = scores.rename(columns=mapping)
+                # Calculate the RMSE of each target
+                rmse.iloc[_, i] = mse(
+                    Y_test, model.predict(X_test), squared=False)
+                mapping = {rmse.columns[i]: 'Y|target'+str(i)}
+                rmse = rmse.rename(columns=mapping)
 
                 i += 1
                 j += 1
@@ -98,13 +124,20 @@ def multivariate(model, X, y, cv, random_state, title):
                 model.fit(X_train, Y_train)
                 score = model.score(X_test, Y_test)
 
-                scores.iloc[_, i] = score
+                # Calculate the R2_score of each target
+                r2_score.iloc[_, i] = score
+                mapping = {r2_score.columns[i]: 'D\'_target'+str(j)}
+                r2_score = r2_score.rename(columns=mapping)
 
-                mapping = {scores.columns[i]: 'D\'_target'+str(j)}
-                scores = scores.rename(columns=mapping)
+                # Calculate the RMSE of each target
+                rmse.iloc[_, i] = mse(
+                    Y_test, model.predict(X_test), squared=False)
+                mapping = {rmse.columns[i]: 'Y|target'+str(i)}
+                rmse = rmse.rename(columns=mapping)
 
                 i += 1
                 j += 1
             else:
                 break
-    scores.to_csv(title + "_score.csv", index=False)
+    to_csv(df=r2_score, title=title, score='_R2_score.csv')
+    to_csv(df=rmse, title=title, score='_RMSE.csv')
