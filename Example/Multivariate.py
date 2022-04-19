@@ -76,8 +76,8 @@ def multivariate(model, X, y, cv, random_state, title):
             rmse = rmse.rename(columns=mapping)
 
             # Claculate the RRMSE for each target
-            rrmse.iloc[_, i] = np.sqrt(((y - model.predict(x_test))**2) /
-                                       ((y - np.mean(y_train))**2))
+            rrmse.iloc[_, i] = np.mean(np.sqrt(((y - model.predict(x_test))**2) /
+                                       ((y - np.mean(y_train))**2)))
             mapping = {rrmse.columns[i]: 'target_' + str(i)}
             rrmse = rrmse.rename(columns=mapping)
 
