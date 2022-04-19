@@ -48,6 +48,7 @@ def multivariate(model, X, y, cv, random_state, title):
 
     r2_score = df(cv, y)
     rmse = df(cv, y)
+    rrmse = df(cv, y)
 
     kfold = KFold(n_splits=cv, shuffle=True, random_state=random_state)
 
@@ -73,6 +74,12 @@ def multivariate(model, X, y, cv, random_state, title):
                 y_test[:, i], model.predict(x_test), squared=False)
             mapping = {rmse.columns[i]: 'target_'+str(i)}
             rmse = rmse.rename(columns=mapping)
+
+            # Claculate the RRMSE for each target
+            rrmse.iloc[_, i] = np.sqrt(((y - model.predict(x_test))**2) /
+                                       ((y - np.mean(y_train))**2))
+            mapping = {rrmse.columns[i]: 'target_' + str(i)}
+            rrmse = rrmse.rename(columns=mapping)
 
         # 2nd Experiment:
         # Check the information in outputs to predict another outputs.
@@ -141,3 +148,4 @@ def multivariate(model, X, y, cv, random_state, title):
                 break
     to_csv(df=r2_score, title=title, score='_R2_score.csv')
     to_csv(df=rmse, title=title, score='_RMSE.csv')
+    to_csv(df=rrmse, title=title, score='_RRMSE')
