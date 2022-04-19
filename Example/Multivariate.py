@@ -148,4 +148,4 @@ def multivariate(model, X, y, cv, random_state, title):
                 break
     to_csv(df=r2_score, title=title, score='_R2_score.csv')
     to_csv(df=rmse, title=title, score='_RMSE.csv')
-    to_csv(df=rrmse, title=title, score='_RRMSE')
+    to_csv(df=rrmse, title=title, score='_RRMSE.csv')
