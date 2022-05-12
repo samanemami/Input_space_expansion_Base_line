@@ -104,7 +104,7 @@ def multivariate(model, X, y, cv, random_state, title):
                 # Calculate the RMSE of each target
                 rmse.iloc[_, i] = mse(
                     Y_test, model.predict(X_test), squared=False)
-                mapping = {rmse.columns[i]: 'Y|target'+str(i)}
+                mapping = {rmse.columns[i]: 'Y|target'+str(j)}
                 rmse = rmse.rename(columns=mapping)
 
                 i += 1
