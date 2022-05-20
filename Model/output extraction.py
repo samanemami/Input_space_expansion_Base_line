@@ -33,20 +33,3 @@ def df(n, score):
 
 rmse = df(n=9, score='_RMSE.csv').T
 r2 = df(n=13, score='_R2_score.csv').T
-
-
-
-# Building the decision matrix
-rmse_ = rmse.iloc[32:, :]
-decision_matrix = pd.DataFrame(
-    np.zeros((rmse_.shape[0], 1)), index=rmse_.index)
-for j in range(rmse_.shape[0]):
-    decision_matrix.iloc[j, 0] = (rmse_.iloc[j, 0])
-
-decision_matrix = decision_matrix.loc[(decision_matrix != 0).any(1)]
-decision_matrix = decision_matrix.rename(columns={0: 'RMSE'})
-
-
-topsis_ = topsis(decision_matrix=decision_matrix,
-                 weight=[1], impact=['-'])
-topsis_.rank()
