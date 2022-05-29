@@ -1,9 +1,20 @@
 # Input_space_expansion_Base_line
+This project is an analysis to determine the gold results for the "Multi-target regression via input space expansion: treating targets as inputs.[1]" experiments. On other hand, it is a baseline for the [1] experiments. 
 
-## Baseline
+
+## What is Multioutput regression?
 Multioutput regression considers the regression tasks with more than one output for the prediction. 
 
-In this project, I implemented a baseline for the "Multi-target regression via input space expansion: treating targets as inputs" [1] experiments. Having a baseline for the reference experiment brings more insight into the advantages of using output as an input in the model.
+## Baseline
+In this project, I implemented a baseline for the "Multi-target regression via input space expansion: treating targets as inputs" [1] experiments. Having a baseline for the reference experiment brings more insight into the advantages of using output as an input in the model. 
+This `_multivariate` class includes three different experiments as follows;
+<ol>
+  <li> Normal regression </li>
+  <li> Predicting output via other outputs </li>
+  <li> Augmenting input with the output </li>
+</ol>
+
+### Normal regression
 
 ### Highlighted approaches
 * internal cross-validation methodology.
