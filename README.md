@@ -1,5 +1,5 @@
-# Input_space_expansion_Base_line
-This project is an analysis to determine the gold results for the "Multi-target regression via input space expansion: treating targets as inputs.[1]" experiments. On other hand, it is a baseline for the [1] experiments. 
+# Input space expansion Base line
+This project is an analysis to determine the gold results for the "Multi-target regression via input space expansion: treating targets as inputs.[1]" experiments. On other hand, it is a baseline for the [1] [experiments](https://github.com/samanemami/Input_space_expansion). 
 
 
 ## What is Multioutput regression?
@@ -15,6 +15,13 @@ This `_multivariate` class includes three different experiments as follows;
 </ol>
 
 ### Normal regression
+The first experiment is the simple regression, which for each target it trains the regressor.
+
+### Predicting output via other outputs
+The second experiment is predicting each continuous output with the rest of the output as an input. This should return better results.
+
+### Augmenting input with the output
+The last experiment is designed to augment the input with the outputs (m-1) to predict the output (m).
 
 ### Highlighted approaches
 * internal cross-validation methodology.
@@ -32,6 +39,20 @@ Besides the baseline model, the MTR datasets have been used in this project. The
 ## Reproduced SST and ERC models
 
 The introduced SST and ERC models [1], had reproduced [here](https://github.com/samanemami/Input_space_expansion).
+
+
+## Citation 
+If you use this package, please [cite](CITATION.cff) it as below.
+
+```yaml
+References:
+    Type: article
+    Author:
+      - Seyedsaman Emami
+    Keywords:
+      - "Input space expansion"
+      - "Multi-output regression"
+```
 
 ## References
 <ol>
