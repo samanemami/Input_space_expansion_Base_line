@@ -15,11 +15,6 @@ Includes three different experiments. The first experiment is a simple regressio
 
 Trains different models (NN, RF, Bgg) with the three different approaches and saves the results in CSV format.
 
-## output_extraction
-
-To have a pivot table from the generated CSV files, the output_extraction needs to be used.
-
-## Dataset
 ### Dataset
 
 includes a method to extract the variables from the MTR datasets and deal with the missing values.
