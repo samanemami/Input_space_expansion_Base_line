@@ -46,7 +46,7 @@ If you use this package, please [cite](CITATION.cff) it as below.
 
 ```yaml
 References:
-    Type: article
+    Type: Python package
     Author:
       - Seyedsaman Emami
     Keywords:
